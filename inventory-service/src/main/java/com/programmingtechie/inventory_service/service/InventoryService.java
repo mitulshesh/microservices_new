@@ -21,9 +21,9 @@ public class InventoryService{
         @Transactional
         public List<InventoryResponse> isInStock(List<String> skuCode) throws InterruptedException {
         log.info("Checking Inventory");
-        log.info("Intentional wait started..");
-            Thread.sleep(10000);
-        log.info("Intentional wait ended..");
+        //log.info("Intentional wait started..");
+            //Thread.sleep(10000);
+        // log.info("Intentional wait ended..");
         return inventoryRepository.findBySkuCodeIn(skuCode).stream()
                 .map(inventory ->
                         InventoryResponse.builder()
