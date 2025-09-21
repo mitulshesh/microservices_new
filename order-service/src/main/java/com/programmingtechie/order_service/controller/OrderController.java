@@ -2,6 +2,7 @@ package com.programmingtechie.order_service.controller;
 
 import com.programmingtechie.order_service.dto.OrderRequest;
 import com.programmingtechie.order_service.service.OrderService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @CircuitBreaker(name = "inventory",fallbackMethod = "fallbackMethod")
     public String placeOrder(@RequestBody OrderRequest orderRequest) throws IllegalAccessException {
 
         orderService.placeOrder(orderRequest);
@@ -24,6 +26,11 @@ public class OrderController {
     @GetMapping
     public String test(){
         return "chal to raha hai";
+    }
+
+    public String fallbackMethod(OrderRequest orderRequest, RuntimeException exception){
+
+        return "OOPS!!! not available now.. pls try to order after sometime";
     }
 
 
