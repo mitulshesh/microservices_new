@@ -25,7 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
-    public void placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
+    public String placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -55,6 +55,7 @@ public class OrderService {
         if(allProductsInStock){
             orderRepository.save(order);
             log.info("Order with ID {} saved to the database",order.getOrderNumber());
+            return "Order Placed Successfully";
         }else{
             throw new IllegalAccessException("Products out of Stock.. Please try again after sometime!!");
         }
